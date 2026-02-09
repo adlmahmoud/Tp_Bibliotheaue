@@ -21,22 +21,36 @@ void afficher_infos() {
 
 // Consigne 3.2 : Sécuriser et ajouter
 void ajouter_livre(char titres[][MAX_STR], int *nb) {
+    // 1. Nettoyage du buffer (pour éviter les bugs de touches Entrée)
+    vider_buffer(); 
+
+    // 2. Vérifier si c'est plein
     if (*nb >= MAX_LIVRES) {
-        printf("Erreur : La bibliotheque est pleine (Max 10) !\n");
+        printf(" Erreur : La bibliotheque est pleine (Max 10) !\n");
         return;
     }
 
     printf("Entrez le titre du livre : ");
-    // UX : Utilisation de fgets pour accepter les espaces (ex: "Harry Potter")
-    vider_buffer(); // On nettoie avant de lire
+    // On écrit directement dans la case libre
     fgets(titres[*nb], MAX_STR, stdin);
-    
-    // Petite astuce UX : enlever le retour à la ligne que fgets ajoute
-    titres[*nb][strcspn(titres[*nb], "\n")] = 0;
+    titres[*nb][strcspn(titres[*nb], "\n")] = 0; // Enlever le \n
 
-    (*nb)++; // On met à jour le compteur via le pointeur
-    nb_livres_global = *nb; // On met à jour la globale aussi pour l'affichage
-    printf("Livre ajoute avec succes !\n");
+    // On regarde du livre 0 jusqu'au livre actuel (*nb)
+    for (int i = 0; i < *nb; i++) {
+        // Si le titre qu'on vient de taper (titres[*nb]) existe déjà en position i
+        if (strcmp(titres[i], titres[*nb]) == 0) {
+            printf(" Erreur : Le livre \"%s\" existe deja !\n", titres[*nb]);
+            // On s'arrête là, on n'augmente pas le compteur (*nb)
+            // La prochaine fois, on écrasera cette case, donc pas de souci.
+            return; 
+        }
+    }
+    // -------------------------------------------
+
+    // Si on arrive ici, c'est que le livre est nouveau !
+    (*nb)++; 
+    nb_livres_global = *nb;
+    printf(" Livre ajoute avec succes !\n");
 }
 
 // Consigne 3.3 : Retourne l'index ou -1
