@@ -1,24 +1,25 @@
 #ifndef BIBLIOTHEQUE_H
 #define BIBLIOTHEQUE_H
-
-// Consigne 3.2 : Max 10 livres
 #define MAX_LIVRES 10
 #define MAX_STR 50
 
-// Consigne 3.1 : Variables globales (déclarées "extern" pour être visibles partout)
 extern char nom_bibliotheque[MAX_STR];
 extern int nb_livres_global; 
 
-// Consigne 3.1 : Afficher infos (sans arguments)
+// --- EXERCICE 1 : Affichage ---
 void afficher_infos();
 
-// Consigne 3.2 : Ajouter (avec pointeur)
+// --- EXERCICE 2 : Ajout ---
 void ajouter_livre(char titres[][MAX_STR], int *nb);
 
-// Consigne 3.3 : Rechercher (retourne int)
+// --- EXERCICE 3 : Recherche ---
 int rechercher_livre(char titres[][MAX_STR], int nb, char *titre);
 
-// Fonction utilitaire pour vider le buffer (Amélioration UX)
+// --- EXERCICE 4 : Menu Principal ---
+// Nouvelle fonction pour alléger le main
+void lancer_app();
+
+// Utilitaire
 void vider_buffer();
 
 #endif
